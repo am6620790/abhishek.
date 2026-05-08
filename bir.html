@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>I'm Sorry 💖</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lato:wght@300;400;700&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Lato', sans-serif;
+    background: #1a0a0f;
+    color: #fff;
+    overflow-x: hidden;
+    min-height: 100vh;
+  }
+
+  /* ===== HEARTS BACKGROUND ===== */
+  .hearts-bg {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    pointer-events: none; z-index: 0; overflow: hidden;
+  }
+  .heart-float {
+    position: absolute; bottom: -50px; font-size: 20px;
+    animation: floatUp linear infinite; opacity: 0;
+  }
+  @keyframes floatUp {
+    0%   { transform: translateY(0) rotate(0deg); opacity: 0.6; }
+    100% { transform: translateY(-110vh) rotate(360deg); opacity: 0; }
+  }
+
+  /* ===== PAGES ===== */
+  .page {
+    display: none; min-height: 100vh;
+    flex-direction: column; align-items: center; justify-content: center;
+    padding: 30px 20px; position: relative; z-index: 1;
+    text-align: center;
+  }
+  .page.active { display: flex; }
+
+  /* ===== NAV DOTS ===== */
+  .nav-dots {
+    position: fixed; bottom: 22px; left: 50%; transform: translateX(-50%);
+    display: flex; gap: 10px; z-index: 100;
+  }
+  .dot {
+    width: 9px; height: 9px; border-radius: 50%;
+    background: rgba(255,255,255,0.3); cursor: pointer;
+    transition: background 0.3s, transform 0.3s;
+  }
+  .dot.active { background: #ff6b8a; transform: scale(1.4); }
+
+  /* ===== BUTTONS ===== */
+  .btn {
+    display: inline-block; padding: 14px 34px;
+    background: linear-gradient(135deg, #ff6b8a, #ff4d6d);
+    color: #fff; border: none; border-radius: 50px;
+    font-size: 16px; font-family: 'Lato', sans-serif; font-weight: 700;
+    cursor: pointer; margin: 8px;
+    box-shadow: 0 6px 20px rgba(255,107,138,0.45);
+    transition: transform 0.2s, box-shadow 0.2s;
+    text-decoration: none;
+  }
+  .btn:hover { transform: translateY(-3px); box-shadow: 0 10px 28px rgba(255,107,138,0.6); }
+  .btn.ghost {
+    background: transparent; border: 2px solid rgba(255,107,138,0.7);
+    color: #ff9ab0; box-shadow: none;
+  }
+  .btn.ghost:hover { background: rgba(255,107,138,0.1); }
+
+  /* ===== PAGE 1 – COVER ===== */
+  #p1 { background: radial-gradient(ellipse at center, #3d0e20 0%, #1a0a0f 70%); }
+  .big-heart {
+    font-size: 90px; animation: pulse 1.4s ease-in-out infinite;
+    display: block; margin-bottom: 10px;
+  }
+  @keyframes pulse {
+    0%,100% { transform: scale(1); }
+    50%      { transform: scale(1.12); }
+  }
+  #p1 h1 {
+    font-family: 'Playfair Display', serif; font-size: 46px;
+    background: linear-gradient(135deg, #ff9ab0, #ffccd5);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    margin-bottom: 12px; line-height: 1.2;
+  }
+  #p1 .sub { font-size: 16px; color: #ffb3c1; margin-bottom: 32px; letter-spacing: 1px; }
+
+  /* ===== PAGE 2 – APOLOGY ===== */
+  #p2 { background: radial-gradient(ellipse at 30% 50%, #2a0d18 0%, #1a0a0f 70%); }
+  .scroll-card {
+    background: rgba(255,255,255,0.06); border: 1px solid rgba(255,107,138,0.3);
+    border-radius: 24px; padding: 34px 28px; max-width: 400px; width: 100%;
+    backdrop-filter: blur(10px);
+  }
+  .scroll-card h2 {
+    font-family: 'Playfair Display', serif; font-size: 28px;
+    color: #ffccd5; margin-bottom: 18px;
+  }
+  .scroll-card p { color: #ffd6de; line-height: 1.85; font-size: 15px; margin-bottom: 14px; }
+
+  /* ===== PAGE 3 – REASONS ===== */
+  #p3 { background: radial-gradient(ellipse at 70% 40%, #1e0b28 0%, #1a0a0f 70%); }
+  #p3 h2 {
+    font-family: 'Playfair Display', serif; font-size: 30px;
+    color: #e8b4ff; margin-bottom: 26px;
+  }
+  .reason-list { max-width: 380px; width: 100%; }
+  .reason-item {
+    display: flex; align-items: flex-start; gap: 14px;
+    background: rgba(200,130,255,0.08); border: 1px solid rgba(200,130,255,0.2);
+    border-radius: 16px; padding: 16px 18px; margin-bottom: 12px; text-align: left;
+  }
+  .reason-item .icon { font-size: 24px; flex-shrink: 0; }
+  .reason-item p { color: #e8d0ff; font-size: 14px; line-height: 1.65; }
+
+  /* ===== PAGE 4 – PROMISE ===== */
+  #p4 { background: radial-gradient(ellipse at 50% 30%, #0d1f2d 0%, #1a0a0f 70%); }
+  #p4 h2 {
+    font-family: 'Playfair Display', serif; font-size: 30px;
+    color: #a8d8f0; margin-bottom: 24px;
+  }
+  .promise-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; max-width: 380px; }
+  .promise-card {
+    background: rgba(80,150,210,0.1); border: 1px solid rgba(80,150,210,0.3);
+    border-radius: 18px; padding: 20px 14px; text-align: center;
+  }
+  .promise-card .ico { font-size: 32px; margin-bottom: 8px; }
+  .promise-card p { color: #c8e8ff; font-size: 13px; line-height: 1.6; }
+
+  /* ===== PAGE 5 – MEMORIES ===== */
+  #p5 { background: radial-gradient(ellipse at 50% 60%, #1f1a00 0%, #1a0a0f 70%); }
+  #p5 h2 {
+    font-family: 'Playfair Display', serif; font-size: 30px;
+    color: #ffe08a; margin-bottom: 8px;
+  }
+  #p5 .tagline { color: #ffd060; font-size: 14px; margin-bottom: 26px; }
+  .timeline { max-width: 380px; width: 100%; }
+  .t-item {
+    display: flex; gap: 16px; align-items: flex-start; margin-bottom: 20px;
+  }
+  .t-dot {
+    width: 38px; height: 38px; background: rgba(255,210,80,0.2);
+    border: 2px solid #ffd24a; border-radius: 50%; flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center; font-size: 18px;
+  }
+  .t-text { text-align: left; }
+  .t-text strong { color: #ffe08a; font-size: 14px; display: block; margin-bottom: 4px; }
+  .t-text span { color: #ffd060; font-size: 13px; line-height: 1.5; opacity: 0.85; }
+
+  /* ===== PAGE 6 – FINAL ===== */
+  #p6 { background: radial-gradient(ellipse at center, #2a0514 0%, #1a0a0f 70%); }
+  #p6 .big { font-size: 64px; animation: spin 4s linear infinite; display: block; }
+  @keyframes spin {
+    0%,100% { transform: scale(1) rotate(0deg); }
+    25%      { transform: scale(1.18) rotate(-8deg); }
+    75%      { transform: scale(1.18) rotate(8deg); }
+  }
+  #p6 h2 {
+    font-family: 'Playfair Display', serif; font-size: 34px;
+    color: #ffccd5; margin: 18px 0 12px; line-height: 1.3;
+  }
+  #p6 p { color: #ffd6de; max-width: 340px; line-height: 1.8; font-size: 15px; margin-bottom: 28px; }
+  .hug-btn {
+    background: linear-gradient(135deg, #ff4d6d, #c9184a);
+    color: #fff; border: none; border-radius: 50px; padding: 16px 40px;
+    font-size: 17px; font-weight: 700; cursor: pointer;
+    box-shadow: 0 8px 24px rgba(255,77,109,0.5);
+    font-family: 'Lato', sans-serif;
+    transition: transform 0.2s;
+  }
+  .hug-btn:hover { transform: scale(1.06); }
+
+  /* ===== CONFETTI ===== */
+  .confetti-piece {
+    position: fixed; width: 10px; height: 10px; top: -10px;
+    animation: confettiFall 3s linear forwards; z-index: 200;
+    pointer-events: none; border-radius: 2px;
+  }
+  @keyframes confettiFall {
+    to { top: 110vh; transform: rotate(720deg) translateX(80px); opacity: 0; }
+  }
+
+  /* ===== PAGE TRANSITION ===== */
+  .page { animation: fadeIn 0.5s ease; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+</style>
+</head>
+<body>
+
+<!-- Floating hearts background -->
+<div class="hearts-bg" id="heartsBg"></div>
+
+<!-- ======= PAGE 1: COVER ======= -->
+<div class="page active" id="p1">
+  <span class="big-heart">💖</span>
+  <h1>I'm So Sorry,<br>My Love</h1>
+  <p class="sub">From the bottom of my heart...</p>
+  <button class="btn" onclick="goTo(2)">Open My Heart &nbsp;→</button>
+</div>
+
+<!-- ======= PAGE 2: APOLOGY LETTER ======= -->
+<div class="page" id="p2">
+  <div class="scroll-card">
+    <h2>💌 A Letter to You</h2>
+    <p>I know I hurt you, and I am truly, deeply sorry. My actions were wrong and you deserved so much better from me.</p>
+    <p>I hate that I made you feel that way. You mean everything to me, and the last thing I ever want is to cause you pain.</p>
+    <p>I am not making excuses — I am just asking for your forgiveness, because losing you would break me completely.</p>
+  </div>
+  <div style="margin-top: 24px; display:flex; gap:10px;">
+    <button class="btn ghost" onclick="goTo(1)">← Back</button>
+    <button class="btn" onclick="goTo(3)">Next →</button>
+  </div>
+</div>
+
+<!-- ======= PAGE 3: REASONS I LOVE YOU ======= -->
+<div class="page" id="p3">
+  <h2>Why I Love You 💜</h2>
+  <div class="reason-list">
+    <div class="reason-item">
+      <span class="icon">😊</span>
+      <p>Your smile is the most beautiful thing in my world. It makes every bad day disappear instantly.</p>
+    </div>
+    <div class="reason-item">
+      <span class="icon">💪</span>
+      <p>Your strength and kindness inspire me every single day. You make me want to be a better person.</p>
+    </div>
+    <div class="reason-item">
+      <span class="icon">🌟</span>
+      <p>You light up every room you walk into. You are the brightest star in my universe.</p>
+    </div>
+    <div class="reason-item">
+      <span class="icon">🤝</span>
+      <p>You always stand by me. Your love and loyalty mean more to me than words can ever say.</p>
+    </div>
+  </div>
+  <div style="margin-top: 20px; display:flex; gap:10px;">
+    <button class="btn ghost" onclick="goTo(2)">← Back</button>
+    <button class="btn" onclick="goTo(4)">Next →</button>
+  </div>
+</div>
+
+<!-- ======= PAGE 4: MY PROMISES ======= -->
+<div class="page" id="p4">
+  <h2>My Promises to You 🌊</h2>
+  <div class="promise-grid">
+    <div class="promise-card">
+      <div class="ico">🗣️</div>
+      <p>I promise to communicate better and never shut you out</p>
+    </div>
+    <div class="promise-card">
+      <div class="ico">👂</div>
+      <p>I promise to listen to you fully and take your feelings seriously</p>
+    </div>
+    <div class="promise-card">
+      <div class="ico">🕊️</div>
+      <p>I promise to be patient and never let my anger hurt you</p>
+    </div>
+    <div class="promise-card">
+      <div class="ico">❤️‍🔥</div>
+      <p>I promise to love you harder and show it every single day</p>
+    </div>
+  </div>
+  <div style="margin-top: 22px; display:flex; gap:10px;">
+    <button class="btn ghost" onclick="goTo(3)">← Back</button>
+    <button class="btn" onclick="goTo(5)">Next →</button>
+  </div>
+</div>
+
+<!-- ======= PAGE 5: OUR MEMORIES ======= -->
+<div class="page" id="p5">
+  <h2>Our Beautiful Story ✨</h2>
+  <p class="tagline">Every moment with you is a treasure</p>
+  <div class="timeline">
+    <div class="t-item">
+      <div class="t-dot">🌅</div>
+      <div class="t-text">
+        <strong>The day we met</strong>
+        <span>I knew from that very first moment that you were someone extraordinary.</span>
+      </div>
+    </div>
+    <div class="t-item">
+      <div class="t-dot">😂</div>
+      <div class="t-text">
+        <strong>Our laughs together</strong>
+        <span>Nobody makes me laugh the way you do. Those memories keep me warm.</span>
+      </div>
+    </div>
+    <div class="t-item">
+      <div class="t-dot">🌧️</div>
+      <div class="t-text">
+        <strong>Hard days we got through</strong>
+        <span>We faced storms together — and every time, we came out stronger.</span>
+      </div>
+    </div>
+    <div class="t-item">
+      <div class="t-dot">🔮</div>
+      <div class="t-text">
+        <strong>Our future</strong>
+        <span>I see so much more ahead for us. Please don't give up on us.</span>
+      </div>
+    </div>
+  </div>
+  <div style="margin-top: 18px; display:flex; gap:10px;">
+    <button class="btn ghost" onclick="goTo(4)">← Back</button>
+    <button class="btn" onclick="goTo(6)">Next →</button>
+  </div>
+</div>
+
+<!-- ======= PAGE 6: FINAL ======= -->
+<div class="page" id="p6">
+  <span class="big">💝</span>
+  <h2>I LOVE YOU ,<br>MY PEEDU</h2>
+  <p>You are my whole heart. I am nothing without your love. I am sorry from the deepest part of my soul — and I will spend every day making it right.</p>
+  <button class="hug-btn" onclick="launchConfetti()">💗 Accept My Hug 💗</button>
+  <div style="margin-top: 22px;">
+    <button class="btn ghost" onclick="goTo(5)">← Back</button>
+  </div>
+</div>
+
+<!-- ======= NAV DOTS ======= -->
+<div class="nav-dots" id="navDots"></div>
+
+<script>
+  let currentPage = 1;
+  const totalPages = 6;
+
+  // Build nav dots
+  const nd = document.getElementById('navDots');
+  for (let i = 1; i <= totalPages; i++) {
+    const d = document.createElement('div');
+    d.className = 'dot' + (i === 1 ? ' active' : '');
+    d.onclick = () => goTo(i);
+    nd.appendChild(d);
+  }
+
+  function goTo(n) {
+    document.getElementById('p' + currentPage).classList.remove('active');
+    document.querySelectorAll('.dot')[currentPage - 1].classList.remove('active');
+    currentPage = n;
+    document.getElementById('p' + n).classList.add('active');
+    document.querySelectorAll('.dot')[n - 1].classList.add('active');
+  }
+
+  // Float hearts background
+  const hb = document.getElementById('heartsBg');
+  const hIcons = ['💖','💗','💕','💓','💞','🌸','✨'];
+  for (let i = 0; i < 18; i++) {
+    const h = document.createElement('div');
+    h.className = 'heart-float';
+    h.textContent = hIcons[Math.floor(Math.random() * hIcons.length)];
+    h.style.left = Math.random() * 100 + '%';
+    h.style.fontSize = (14 + Math.random() * 18) + 'px';
+    h.style.animationDuration = (7 + Math.random() * 10) + 's';
+    h.style.animationDelay = (Math.random() * 10) + 's';
+    hb.appendChild(h);
+  }
+
+  // Confetti
+  function launchConfetti() {
+    const colors = ['#ff6b8a','#ffccd5','#ffd700','#c8b4ff','#a8d8f0','#ff4d6d'];
+    for (let i = 0; i < 60; i++) {
+      const c = document.createElement('div');
+      c.className = 'confetti-piece';
+      c.style.left = Math.random() * 100 + 'vw';
+      c.style.background = colors[Math.floor(Math.random() * colors.length)];
+      c.style.animationDelay = Math.random() * 1.5 + 's';
+      c.style.animationDuration = (2 + Math.random() * 2) + 's';
+      c.style.width = (7 + Math.random() * 8) + 'px';
+      c.style.height = (7 + Math.random() * 8) + 'px';
+      c.style.borderRadius = Math.random() > 0.5 ? '50%' : '2px';
+      document.body.appendChild(c);
+      setTimeout(() => c.remove(), 4000);
+    }
+    // Pulse the heart
+    document.querySelector('#p6 .big').style.animation = 'none';
+    setTimeout(() => document.querySelector('#p6 .big').style.animation = 'spin 4s linear infinite', 100);
+  }
+</script>
+</body>
+</html>
